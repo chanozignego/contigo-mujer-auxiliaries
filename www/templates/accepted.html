@@ -1,0 +1,13 @@
+<ion-view name="accepted" hide-nav-bar="false">
+  <ion-content class="shipments-background" padding="true" scrollbar-y="false">
+    <div ng-show="accepted.length > 0" class="card" ng-repeat="a in accepted track by a.id">
+      <div class="item item-shipment" ng-click="openAssistanceDetail(a);">
+        <assistance-card assistance="a"></assistance-card>
+      </div>
+    </div>
+    <div class="no-elements more-margin" ng-hide="accepted.length > 0">
+      <div class="title">Todavía no hay asistencias cargadas</div>
+      <div class="subtitle">¡Volvé mas tarde!</div>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,15 @@
+<i class="ion-location close"></i>
+<div class="col">
+  <div class="row">
+    <p>
+      Se enviará una notificación a {{assistance.user_name}} que la ayuda va en camino. Indique el tiempo estimado (en minutos) para su llegada
+    </p>
+  </div>
+  <div class="row text-center" style="padding-right: 80px; padding-left: 80px;">
+    <input class="form-control text-center" readonly type="number" name="mins" min="0" max="60" step="5" ng-model="mins" style="font-size: 50px; height: 60px;">
+    <div style="display: block; height: 60px;">
+      <button style="height: 30px;" ng-click="sumMins()"><i class="ion-chevron-up"></i></button>
+      <button style="height: 30px;" ng-click="lessMins()"><i class="ion-chevron-down"></i></button>
+    </div>
+  </div>
+</div>
