@@ -46,6 +46,46 @@ angular
 			}
 		};
 	})
+	.directive('messageCard', function(){
+		return {
+			scope: {
+				message: '='
+			},
+			templateUrl: 'templates/messageCard.html',
+			controller: ($scope) => {
+				$scope.noImage = NO_IMAGE;
+				$scope.getMessageText = (message) => {
+					var text = "";
+					if (message.message_type == "request_assistance") {
+						text = "Solicitud de auxilio"
+					} else if (message.message_type == "assistance_canceled") {
+						text = "Una asistencia ha sido cancelada"
+					}
+					return text;
+				};
+		    $scope.getMessageDate = (message) => {
+		    	var date = new Date(message.created_at)
+		    	var year = $scope.formatDateNumber(date.getFullYear());
+		    	var month = $scope.formatDateNumber(date.getMonth() + 1);
+		    	var day = $scope.formatDateNumber(date.getDate());
+		    	var hour = $scope.formatDateNumber(date.getHours());
+		    	var minutes = $scope.formatDateNumber(date.getMinutes());
+
+		      //return new Date(message.created_at).toUTCString()
+		      return `${day}/${month}/${year} ${hour}:${minutes}hs`
+		    };
+		    $scope.formatDateNumber = (date) => {
+		    	if (date < 10) {
+		    		return `0${date}`;
+		    	} else {
+		    		return date;
+		    	}
+		    };
+			}
+		};
+	})
+
+
 
 
 .directive('offerCard', function(){

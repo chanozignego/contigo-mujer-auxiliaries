@@ -18,7 +18,7 @@ angular.module('app.routes', [])
     resolve: {
       initApp: ($auth, $state) => {
         return $auth.validateUser()
-          .catch(() => $state.go('login', {}, {reload: true}));
+          .catch((message) => {console.log(message); $state.go('login', {}, {reload: true})});
       }
     },
   })
@@ -67,6 +67,16 @@ angular.module('app.routes', [])
     resolve: {
       assistance: (Assistance, $stateParams) => Assistance.get($stateParams.id)//,
       //assistanceId: ($stateParams) => $stateParams.id
+    }
+  })
+
+  .state('assistances.messages', {
+    url: '/messages',
+    views: {
+      'assistanceMenuContent': {
+        templateUrl: 'templates/messages.html',
+        controller: 'messagesController'
+      }
     }
   })
 

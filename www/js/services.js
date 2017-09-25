@@ -1,6 +1,36 @@
 angular.module('app.services', [])
 
 
+.service('Message', ['$http', '$auth', 'BASE', function($http, $auth, BASE) {
+	let messages = [];
+	const getMessages = () => {
+		return $http.get(BASE + `/auxiliaries/${$auth.user.id}/messages`)
+			.success((data) => messages = data)
+			.error(() => console.log("Messages fetch fail"));
+	}
+
+	const markAsViewed = () => {
+		return $http.put(BASE + `/auxiliaries/${$auth.user.id}/mark_messages_as_viewed`)
+			.success(() => {})
+			.error(() => console.log("Messages fetch fail"));
+	}
+
+	const markAsRead = (id) => {
+		return $http.put(BASE + `/messages/${id}/read`)
+			.success(() => {})
+			.error(() => console.log("Messages fetch fail"));
+	}
+
+	return {
+		get: id => messages.filter(s => s.id == id)[0],
+		all: () => messages,
+		unviewedCount: () => messages.filter(s => s.viewed == false).length,
+		markAllAsViewed: () => markAsViewed(),
+		markAsRead: (id) => markAsRead(id),
+		getMessages
+	}
+}])
+
 .service('Shipment', ['$http', '$auth', 'BASE',
 function($http, $auth, BASE) {
 	let shipments = [];
@@ -68,7 +98,7 @@ function($http, $auth, BASE) {
 	let assistances = [];
 	const getAssistances = () => {
 		return $http.get(BASE + `/assistances`)
-			.success((data) => assistances = data)
+			.success((data) => assistances = data.reverse())
 			.error(() => console.log("Assistances fetch fail"));
 	}
 
@@ -140,18 +170,9 @@ function($http, BASE) {
 	}
 }])
 
-.service('Fetcher', ['Shipment', 'Offer', 'Price',
-function(Shipment, Offer, Price) {
+.service('Fetcher', [
+function() {
 	return {
-		initApp: () => {
-			return Price.getValuation()
-				.then(() => Shipment.getShipments())
-				.then(() => {
-					const shipping = Shipment.currentShipment();
-					if (shipping) {
-						return Offer.getOffersForShipment(shipping.id);
-					}
-				});
-		}
+		initApp: () => {}
 	}
 }]);
